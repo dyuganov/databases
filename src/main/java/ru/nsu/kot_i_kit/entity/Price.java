@@ -1,6 +1,7 @@
-package ru.nsu.kot_i_kit.model;
+package ru.nsu.kot_i_kit.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -16,7 +17,7 @@ public class Price {
     private ServiceType serviceType;
 
     @Column(name = "value", nullable = false)
-    private Integer value;
+    private BigDecimal value;
 
     @Column(name = "adding_date", nullable = false)
     private OffsetDateTime addingDate;
@@ -37,11 +38,11 @@ public class Price {
         this.serviceType = serviceType;
     }
 
-    public Integer getValue() {
+    public BigDecimal getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(BigDecimal value) {
         this.value = value;
     }
 

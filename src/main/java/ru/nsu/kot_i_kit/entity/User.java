@@ -1,23 +1,22 @@
-package ru.nsu.kot_i_kit.model;
+package ru.nsu.kot_i_kit.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Integer id;
 
+    @Lob
     @Column(name = "login", nullable = false)
     private String login;
 
+    @JsonIgnore
     @Column(name = "password", nullable = false, length = 64)
     private String password;
 
@@ -29,11 +28,11 @@ public class User {
     @JoinColumn(name = "user_type_id", nullable = false)
     private UserType userType;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

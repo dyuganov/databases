@@ -1,4 +1,6 @@
-package ru.nsu.kot_i_kit.model;
+package ru.nsu.kot_i_kit.entity;
+
+import ru.nsu.kot_i_kit.model.CreateOrderRequest;
 
 import javax.persistence.*;
 

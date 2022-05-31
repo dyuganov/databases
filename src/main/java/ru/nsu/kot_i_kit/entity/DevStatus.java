@@ -1,4 +1,4 @@
-package ru.nsu.kot_i_kit.model;
+package ru.nsu.kot_i_kit.entity;
 
 import javax.persistence.*;
 
@@ -28,5 +28,4 @@ public class DevStatus {
     public void setName(String name) {
         this.name = name;
     }
-
 }

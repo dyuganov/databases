@@ -1,4 +1,8 @@
-package ru.nsu.kot_i_kit.model;
+package ru.nsu.kot_i_kit.entity;
+
+import org.aspectj.weaver.ast.Or;
+import ru.nsu.kot_i_kit.model.CreateOrderRequest;
+import ru.nsu.kot_i_kit.model.OrderModel;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -40,6 +44,13 @@ public class Order {
 
     public void setCreationTime(OffsetDateTime creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public static Order toOrder(CreateOrderRequest orderModel){
+        Order result = new Order();
+        result.setCreationTime(orderModel.getCreationTime());
+        result.setUser(orderModel.getUser());
+        return result;
     }
 
 }

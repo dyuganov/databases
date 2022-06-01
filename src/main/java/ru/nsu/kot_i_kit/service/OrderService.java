@@ -4,13 +4,16 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ru.nsu.kot_i_kit.entity.Film;
 import ru.nsu.kot_i_kit.entity.Order;
 import ru.nsu.kot_i_kit.model.CreateOrderRequest;
 import ru.nsu.kot_i_kit.model.OrderModel;
 import ru.nsu.kot_i_kit.model.UpdateStatusRequest;
+import ru.nsu.kot_i_kit.repository.DevStatusRepo;
 import ru.nsu.kot_i_kit.repository.FilmRepo;
 import ru.nsu.kot_i_kit.repository.OrderRepo;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 public class OrderService {
     private OrderRepo orderRepo;
     private FilmRepo filmRepo;
+    private DevStatusRepo devStatusRepo;
 
     public List<OrderModel> getAllOrdersByUserId(@NotNull Long id){
         if(!orderRepo.existsByUserId(id)){
@@ -77,6 +81,16 @@ public class OrderService {
     }
 
     public ResponseEntity<String> updateOrderStatus(UpdateStatusRequest updateStatusRequest){
-        return ResponseEntity.ok().body("Updated");
+        Film film;
+        try{
+            film = filmRepo.getById(updateStatusRequest.getFilmId());
+        }
+        catch (EntityNotFoundException e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Film with this id not found");
+        }
+        film.setDevStatus(devStatusRepo.getById(updateStatusRequest.getDevStatusId()));
+        filmRepo.save(film);
+        return ResponseEntity.ok().body("Film status updated");
     }
 }

@@ -42,13 +42,14 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getActiveOrdersByUserId(id));
     }
 
-    @PostMapping("/")
+    @PostMapping("/create")
     public ResponseEntity<String> createNewOrder(@RequestBody CreateOrderRequest createOrderRequest){
         return orderService.addNewOrder(createOrderRequest);
     }
 
+    @PostMapping("/edit")
     public ResponseEntity<String> updateOrderStatus(@RequestBody UpdateStatusRequest updateStatusRequest){
-        return
+        return orderService.updateOrderStatus(updateStatusRequest);
     }
 
 

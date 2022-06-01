@@ -21,7 +21,10 @@ public class OrderService {
     private OrderRepo orderRepo;
     private FilmRepo filmRepo;
 
-    public ResponseEntity<?> getOrdersByUserId(@NotNull Long id){
+    public ResponseEntity<?> getAllOrdersByUserId(@NotNull Long id){
+        if(!orderRepo.existsByUserId(id)){
+            return ResponseEntity.badRequest().body("User with id=" + id + " don't exist");
+        }
         List<OrderModel> models = new ArrayList<>();
         List<Order> orders = orderRepo.getAllByUserId(id);
         orders.forEach((order) -> {
@@ -51,12 +54,22 @@ public class OrderService {
         return ResponseEntity.ok(models);
     }
 
-    public ResponseEntity<?> getAllActiveOrdersByUserId(@NotNull Long id){
+    public ResponseEntity<?> getActiveOrdersByUserId(@NotNull Long id){
         List<OrderModel> models = new ArrayList<>();
-        List<Order> orders = orderRepo.getAllNotFinishedByUserId(id);
+        List<Order> orders = orderRepo.getAllActiveByUserId(id);
         orders.forEach((order) -> {
             models.add(OrderModel.toModel(order, filmRepo.getAllByOrderId(order.getId())));
         });
+        return ResponseEntity.ok(models);
+    }
+
+    public ResponseEntity<List<OrderModel>> getAllUsersOrders(){
+        List<OrderModel> models = new ArrayList<>();
+        List<Order> orders = orderRepo.findAll();
+        orders.forEach((order) -> {
+            models.add(OrderModel.toModel(order, filmRepo.getAllByOrderId(order.getId())));
+        });
+        System.out.println(models.size());
         return ResponseEntity.ok(models);
     }
 }

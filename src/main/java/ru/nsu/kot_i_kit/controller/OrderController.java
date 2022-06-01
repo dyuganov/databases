@@ -3,25 +3,43 @@ package ru.nsu.kot_i_kit.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.nsu.kot_i_kit.entity.Order;
-import ru.nsu.kot_i_kit.repository.OrderRepo;
+import ru.nsu.kot_i_kit.model.CreateOrderRequest;
+import ru.nsu.kot_i_kit.model.OrderModel;
+import ru.nsu.kot_i_kit.service.OrderService;
 
-import java.util.Optional;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/order")
 public class OrderController {
+    private OrderService orderService;
 
-    private OrderRepo orderRepo;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getOrder(@PathVariable("id") Long id){
-        Optional<Order> order = orderRepo.findById(id);
-        if(!order.isPresent()){
-            return ResponseEntity.badRequest().body("Not found");
-        }
-        return ResponseEntity.ok(order.get());
+    @GetMapping("/all")
+    public ResponseEntity<List<OrderModel>> getAllOrders(){
+        return orderService.getAllUsersOrders();
+    }
+
+    @GetMapping("/all/{id}")
+    public ResponseEntity<?> getAllOrdersByUserID(@PathVariable Long id){
+        return orderService.getAllOrdersByUserId(id);
+    }
+
+    @GetMapping("/ordered/{id}")
+    public ResponseEntity<?> getAllOrdersByUserIdOrderedByTime(@PathVariable Long id){
+        return orderService.getAllOrderedByCreationTime(id);
+    }
+
+    @GetMapping("/active/{id}")
+    public ResponseEntity<?> getActiveOrdersByUserId(@PathVariable Long id){
+        return orderService.getActiveOrdersByUserId(id);
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<?> createNewOrder(@RequestBody CreateOrderRequest createOrderRequest){
+        return  orderService.addNewOrder(createOrderRequest);
     }
 
 

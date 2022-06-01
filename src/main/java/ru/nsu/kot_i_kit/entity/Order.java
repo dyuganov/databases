@@ -1,8 +1,6 @@
 package ru.nsu.kot_i_kit.entity;
 
-import org.aspectj.weaver.ast.Or;
 import ru.nsu.kot_i_kit.model.CreateOrderRequest;
-import ru.nsu.kot_i_kit.model.OrderModel;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -15,7 +13,7 @@ public class Order {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

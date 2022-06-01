@@ -3,27 +3,31 @@ package ru.nsu.kot_i_kit.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.nsu.kot_i_kit.entity.User;
-import ru.nsu.kot_i_kit.repository.UserRepo;
-
-import java.util.List;
+import ru.nsu.kot_i_kit.service.UserService;
 
 @AllArgsConstructor
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/user")
 public class UserController {
 
-    private UserRepo userRepo;
+    private UserService userService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<User>> getUserList() {
-        return ResponseEntity.ok(userRepo.findAll());
+    public ResponseEntity<?> getUserList() {
+        return userService.getAllUsers();
     }
 
-    @PostMapping("/add")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        return userService.getById(id);
+    }
+
+
+    /*@PostMapping("/add")
     public ResponseEntity<?> addUser(@RequestBody String username){
 
 
         return ResponseEntity.ok().body("kok");
-    }
+    }*/
 }

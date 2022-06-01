@@ -13,7 +13,7 @@ public class FilmType {
     @Column(name = "name", nullable = false, length = 64)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "dev_process_id", nullable = false)
     private DevProcess devProcess;
 

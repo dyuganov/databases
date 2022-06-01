@@ -1,5 +1,6 @@
 package ru.nsu.kot_i_kit.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.nsu.kot_i_kit.model.CreateOrderRequest;
 
 import javax.persistence.*;
@@ -12,22 +13,23 @@ public class Film {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
+    @JsonIgnore
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "film_type_id", nullable = false)
     private FilmType filmType;
 
     @Column(name = "amount", nullable = false)
     private Long amount;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "service_type_id", nullable = false)
     private ServiceType serviceType;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "dev_status_id", nullable = false)
     private DevStatus devStatus;
 

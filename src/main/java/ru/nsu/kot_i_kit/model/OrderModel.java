@@ -9,21 +9,12 @@ import ru.nsu.kot_i_kit.entity.User;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+@Getter
+@Setter
 public class OrderModel {
-    @Getter
-    @Setter
     private Long orderId;
-
-    @Getter
-    @Setter
     private OffsetDateTime creationTime;
-
-    @Getter
-    @Setter
     private User user;
-
-    @Getter
-    @Setter
     private List<Film> films;
 
     public OrderModel(){}

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.kot_i_kit.model.CreateOrderRequest;
 import ru.nsu.kot_i_kit.model.OrderModel;
+import ru.nsu.kot_i_kit.model.UpdateStatusRequest;
 import ru.nsu.kot_i_kit.service.OrderService;
 
 import java.util.List;
@@ -19,27 +20,35 @@ public class OrderController {
 
     @GetMapping("/all")
     public ResponseEntity<List<OrderModel>> getAllOrders(){
-        return orderService.getAllUsersOrders();
+        return ResponseEntity.ok(orderService.getAllUsersOrders());
     }
 
     @GetMapping("/all/{id}")
     public ResponseEntity<?> getAllOrdersByUserID(@PathVariable Long id){
-        return orderService.getAllOrdersByUserId(id);
+        var orders = orderService.getAllOrdersByUserId(id);
+        if(orders == null){
+            ResponseEntity.badRequest().body("User with id=" + id + " don't exist");
+        }
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/ordered/{id}")
-    public ResponseEntity<?> getAllOrdersByUserIdOrderedByTime(@PathVariable Long id){
-        return orderService.getAllOrderedByCreationTime(id);
+    public ResponseEntity<List<OrderModel>> getAllOrdersByUserIdOrderedByTime(@PathVariable Long id){
+        return ResponseEntity.ok(orderService.getAllOrderedByCreationTime(id));
     }
 
     @GetMapping("/active/{id}")
-    public ResponseEntity<?> getActiveOrdersByUserId(@PathVariable Long id){
-        return orderService.getActiveOrdersByUserId(id);
+    public ResponseEntity<List<OrderModel>> getActiveOrdersByUserId(@PathVariable Long id){
+        return ResponseEntity.ok(orderService.getActiveOrdersByUserId(id));
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> createNewOrder(@RequestBody CreateOrderRequest createOrderRequest){
-        return  orderService.addNewOrder(createOrderRequest);
+    public ResponseEntity<String> createNewOrder(@RequestBody CreateOrderRequest createOrderRequest){
+        return orderService.addNewOrder(createOrderRequest);
+    }
+
+    public ResponseEntity<String> updateOrderStatus(@RequestBody UpdateStatusRequest updateStatusRequest){
+        return
     }
 
 

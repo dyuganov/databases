@@ -43,6 +43,11 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getActiveOrdersByUserId(id));
     }
 
+    @GetMapping("/finished/{id}")
+    public ResponseEntity<List<OrderModel>> getFinishedOrdersByUserId(@PathVariable Long id){
+        return ResponseEntity.ok(orderService.getFinishedOrdersByUserId(id));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<String> createNewOrder(@RequestBody CreateOrderRequest createOrderRequest){
         return orderService.addNewOrder(createOrderRequest);

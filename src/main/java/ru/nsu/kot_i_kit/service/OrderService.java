@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-// TODO: test
 @AllArgsConstructor
 @Service
 public class OrderService {
@@ -61,15 +59,6 @@ public class OrderService {
         return models;
     }
 
-    public List<OrderModel> getActiveOrdersByUserId(@NotNull Long id){
-        List<OrderModel> models = new ArrayList<>();
-        List<Order> orders = orderRepo.getAllActiveByUserId(id);
-        orders.forEach((order) -> {
-            models.add(OrderModel.toModel(order, filmRepo.getAllByOrderId(order.getId())));
-        });
-        return models;
-    }
-
     public List<OrderModel> getAllUsersOrders(){
         List<OrderModel> models = new ArrayList<>();
         List<Order> orders = orderRepo.findAll();
@@ -92,5 +81,23 @@ public class OrderService {
         film.setDevStatus(devStatusRepo.getById(updateStatusRequest.getDevStatusId()));
         filmRepo.save(film);
         return ResponseEntity.ok().body("Film status updated");
+    }
+
+    public List<OrderModel> getActiveOrdersByUserId(@NotNull Long id){
+        List<OrderModel> models = new ArrayList<>();
+        List<Order> orders = orderRepo.getAllActiveByUserId(id);
+        orders.forEach((order) -> {
+            models.add(OrderModel.toModel(order, filmRepo.getAllByOrderId(order.getId())));
+        });
+        return models;
+    }
+
+    public List<OrderModel> getFinishedOrdersByUserId(@NotNull Long id){
+        List<OrderModel> models = new ArrayList<>();
+        List<Order> orders = orderRepo.getAllFinishedByUserId(id);
+        orders.forEach((order) -> {
+            models.add(OrderModel.toModel(order, filmRepo.getAllByOrderId(order.getId())));
+        });
+        return models;
     }
 }

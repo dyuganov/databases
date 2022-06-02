@@ -12,6 +12,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
+//@Controller
 @CrossOrigin("*")
 @RequestMapping("/order")
 public class OrderController {
@@ -47,10 +48,9 @@ public class OrderController {
         return orderService.addNewOrder(createOrderRequest);
     }
 
-    @PostMapping("/edit")
+    @PutMapping("/edit")
     public ResponseEntity<String> updateOrderStatus(@RequestBody UpdateStatusRequest updateStatusRequest){
         return orderService.updateOrderStatus(updateStatusRequest);
     }
-
 
 }

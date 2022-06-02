@@ -7,6 +7,7 @@ import ru.nsu.kot_i_kit.service.UserService;
 
 @AllArgsConstructor
 @RestController
+//@Controller
 @CrossOrigin("*")
 @RequestMapping("/user")
 public class UserController {

@@ -100,4 +100,13 @@ public class OrderService {
         });
         return models;
     }
+
+    public ResponseEntity<String> deleteOrderById(@NotNull Long id){
+        if(orderRepo.existsById(id)){
+            return ResponseEntity.badRequest().body("Order not found");
+        }
+        orderRepo.removeById(id);
+        filmRepo.removeByOrderId(id);
+        return ResponseEntity.ok().body("Order removed");
+    }
 }

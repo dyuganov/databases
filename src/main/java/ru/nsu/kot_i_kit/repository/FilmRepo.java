@@ -9,4 +9,6 @@ import java.util.List;
 public interface FilmRepo extends JpaRepository<Film, Long> {
     List<Film> getAllByOrderId(@NotNull Long orderId);
 
+    void removeByOrderId(@NotNull Long id);
+
 }

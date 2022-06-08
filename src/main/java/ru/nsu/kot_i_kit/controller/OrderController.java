@@ -12,12 +12,10 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-//@Controller
 @CrossOrigin("*")
 @RequestMapping("/order")
 public class OrderController {
     private OrderService orderService;
-
 
     @GetMapping("/all")
     public ResponseEntity<List<OrderModel>> getAllOrders(){
@@ -56,6 +54,12 @@ public class OrderController {
     @PutMapping("/edit")
     public ResponseEntity<String> updateOrderStatus(@RequestBody UpdateStatusRequest updateStatusRequest){
         return orderService.updateOrderStatus(updateStatusRequest);
+    }
+
+    // for admin only
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<?> deleteOrder(@PathVariable Long id){
+        return orderService.deleteOrderById(id);
     }
 
 }

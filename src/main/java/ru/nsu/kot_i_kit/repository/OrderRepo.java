@@ -22,5 +22,7 @@ public interface OrderRepo extends JpaRepository<Order, Long> {
             "where orders.id in (select order_id from films where films.dev_status_id = 5 and user_id = :user_id);")
     List<Order> getAllFinishedByUserId(@NotNull @Param("user_id") Long id);
 
-    Boolean existsByUserId(@NotNull Long id);
+    boolean existsByUserId(@NotNull Long id);
+
+    void removeById(@NotNull Long id);
 }

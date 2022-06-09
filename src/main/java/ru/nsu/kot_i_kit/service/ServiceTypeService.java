@@ -22,10 +22,8 @@ public class ServiceTypeService {
         return serviceTypeRepo.findAll();
     }
 
-    public void add(ServiceType serviceType) {
-        if (serviceTypeRepo.existsById(serviceType.getId())) {
-            throw new IllegalArgumentException("ServiceType already exists");
-        }
+    public void create(ServiceType serviceType) {
+        serviceType.setId((long) 0);
         serviceTypeRepo.save(serviceType);
     }
 

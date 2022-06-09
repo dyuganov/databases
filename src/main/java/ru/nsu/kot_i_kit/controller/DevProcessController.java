@@ -33,7 +33,7 @@ public class DevProcessController {
     @PostMapping("/create")
     public ResponseEntity<String> addDevProcess(@RequestBody DevProcess devProcess) {
         try {
-            devProcessService.add(devProcess);
+            devProcessService.create(devProcess);
             return ResponseEntity.ok().body("DevProcess added");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

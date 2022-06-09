@@ -32,7 +32,7 @@ public class ServiceTypeController {
     @PostMapping("/create")
     public ResponseEntity<String> addServiceType(@RequestBody ServiceType serviceType) {
         try {
-            serviceTypeService.add(serviceType);
+            serviceTypeService.create(serviceType);
             return ResponseEntity.ok().body("ServiceType added");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -2,9 +2,15 @@ package ru.nsu.kot_i_kit.service;
 
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.nsu.kot_i_kit.entity.User;
+import ru.nsu.kot_i_kit.model.CreateUserRequest;
 import ru.nsu.kot_i_kit.repository.UserRepo;
+
+import java.awt.print.Pageable;
+import java.util.List;
 
 @AllArgsConstructor
 @Service
@@ -22,10 +28,9 @@ public class UserService {
         return userRepo.getById(id);
     }
 
-    public void add(User user) {
-        if (userRepo.existsById(user.getId())) {
-            throw new IllegalArgumentException("User already exists");
-        }
+    public void create(@NotNull CreateUserRequest createUserRequest) {
+        var user = CreateUserRequest.toUser(createUserRequest);
+        user.setId((long) 0);
         userRepo.save(user);
     }
 
@@ -43,4 +48,11 @@ public class UserService {
         }
         userRepo.save(user);
     }
+
+    public List<User> getAllPaginated(int page, int pageSize){
+        PageRequest paging = PageRequest.of(page, pageSize);
+        Page<User> pageResult = userRepo.findAll(paging);
+        return pageResult.toList();
+    }
+
 }

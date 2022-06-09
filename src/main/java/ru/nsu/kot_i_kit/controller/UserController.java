@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.kot_i_kit.entity.User;
+import ru.nsu.kot_i_kit.model.CreateUserRequest;
 import ru.nsu.kot_i_kit.service.UserService;
 
 @AllArgsConstructor
@@ -19,6 +20,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @GetMapping("/all/{page}")
+    public ResponseEntity<?> getPaginatedUserList(@PathVariable Integer page) {
+        return ResponseEntity.ok(userService.getAllPaginated(page, 2));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         try {
@@ -29,9 +35,9 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> addUser(@RequestBody User user) {
+    public ResponseEntity<?> addUser(@RequestBody CreateUserRequest createUserRequest) {
         try {
-            userService.add(user);
+            userService.create(createUserRequest);
             return ResponseEntity.ok().body("User added");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

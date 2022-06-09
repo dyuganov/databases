@@ -2,8 +2,10 @@ package ru.nsu.kot_i_kit.service;
 
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.nsu.kot_i_kit.entity.Film;
 import ru.nsu.kot_i_kit.entity.Order;
 import ru.nsu.kot_i_kit.model.CreateOrderRequest;
@@ -14,9 +16,12 @@ import ru.nsu.kot_i_kit.repository.FilmRepo;
 import ru.nsu.kot_i_kit.repository.OrderRepo;
 
 import javax.persistence.EntityNotFoundException;
+import java.sql.Savepoint;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.zip.DataFormatException;
 
 @AllArgsConstructor
 @Service
@@ -37,15 +42,18 @@ public class OrderService {
         return models;
     }
 
+    @Transactional
     public ResponseEntity<String> addNewOrder(@NotNull CreateOrderRequest orderRequest){
         try{
             var savedOrder = orderRepo.save(Order.toOrder(orderRequest));
+            savedOrder.setCreationTime(OffsetDateTime.now());
             var filmList = orderRequest.getFilms().stream().peek(film -> film.setOrder(savedOrder)).collect(Collectors.toList());
             filmRepo.saveAll(filmList);
         }
         catch (IllegalArgumentException e){
             e.printStackTrace();
-            return ResponseEntity.badRequest().body("Repository saving order error");
+            throw new RuntimeException("Repository saving order error");
+            //return ResponseEntity.badRequest().body("Repository saving order error");
         }
         return ResponseEntity.ok().body("New order added");
     }
@@ -69,6 +77,7 @@ public class OrderService {
         return models;
     }
 
+    @Transactional
     public ResponseEntity<String> updateOrderStatus(UpdateStatusRequest updateStatusRequest){
         Film film;
         try{

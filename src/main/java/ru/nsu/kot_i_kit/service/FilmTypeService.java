@@ -59,8 +59,4 @@ public class FilmTypeService {
         iso = filmTypeRepo.countWithIso(iso);
         return iso;
     }
-
-    public List<FilmType> getMonochrome(){
-        return filmTypeRepo.
-    }
 }

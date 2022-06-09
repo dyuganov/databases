@@ -56,7 +56,6 @@ public class OrderController {
         return orderService.updateOrderStatus(updateStatusRequest);
     }
 
-    // for admin only
     @PostMapping("/delete/{id}")
     public ResponseEntity<?> deleteOrder(@PathVariable Long id){
         return orderService.deleteOrderById(id);

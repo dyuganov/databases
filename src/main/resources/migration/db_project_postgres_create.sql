@@ -227,7 +227,7 @@ select film_types.name, film_types.iso, film_usage.usage from film_types cross j
 
 select name, is_monochrome from film_types group by name, is_monochrome having is_monochrome = true;
 
-
+select * from prices full outer join service_types st on prices.service_type_id = st.id;
 
 create or replace procedure COUNT_WITH_ISO(inout val int)
 language plpgsql

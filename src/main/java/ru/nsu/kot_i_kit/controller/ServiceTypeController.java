@@ -20,7 +20,7 @@ public class ServiceTypeController {
         try {
             return ResponseEntity.ok(serviceTypeService.getById(id));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Service not found");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
